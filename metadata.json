@@ -1,0 +1,5 @@
+{
+  "name": "TrigoFlash",
+  "description": "A glassmorphic flashcard app for memorizing trigonometric formulas with spaced repetition mechanics.",
+  "requestFramePermissions": []
+}
