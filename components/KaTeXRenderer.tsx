@@ -25,8 +25,8 @@ const KaTeXRenderer: React.FC<KaTeXRendererProps> = ({ formula, className, displ
     }
   }, [formula, displayMode]);
 
-  // Added 'no-scrollbar' to ensure any internal scrolling in KaTeX output is hidden
-  return <div className={`whitespace-normal break-words max-w-full no-scrollbar ${className || ''}`} dangerouslySetInnerHTML={{ __html: html }} />;
+  // Added 'text-white' to force color inheritance
+  return <div className={`whitespace-normal break-words max-w-full no-scrollbar text-white ${className || ''}`} dangerouslySetInnerHTML={{ __html: html }} />;
 };
 
 export default React.memo(KaTeXRenderer);

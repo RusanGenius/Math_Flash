@@ -7,6 +7,22 @@ import Results from './views/Results';
 import Reference from './views/Reference';
 import { AnimatePresence } from 'framer-motion';
 
+// Add type definition for Telegram WebApp
+declare global {
+  interface Window {
+    Telegram: {
+      WebApp: {
+        ready: () => void;
+        expand: () => void;
+        MainButton: {
+            show: () => void;
+            hide: () => void;
+        }
+      }
+    }
+  }
+}
+
 const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('home');
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
@@ -23,11 +39,20 @@ const App: React.FC = () => {
     queue: []
   });
 
+  // Initialize Telegram WebApp
+  useEffect(() => {
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+    }
+  }, []);
+
   // Handle background color changes based on theme
   useEffect(() => {
     const body = document.body;
     // Professional dark theme: Neutral gray gradients (removed slate/blue tones)
-    body.className = "bg-neutral-950 text-neutral-100 antialiased overflow-hidden select-none bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-neutral-800 via-neutral-950 to-black h-screen";
+    // Removed h-screen to use h-full from css for better mobile support
+    body.className = "bg-neutral-950 text-neutral-100 antialiased overflow-hidden select-none bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-neutral-800 via-neutral-950 to-black h-full";
   }, [settings.darkMode]);
 
   const toggleTopic = (id: string) => {
@@ -94,7 +119,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="h-full w-full relative">
+    <div className="h-full w-full relative overflow-hidden">
       {/* Subtle background noise/gradient */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDI1Ii8+Cjwvc3ZnPg==')] opacity-20 pointer-events-none" />
       
